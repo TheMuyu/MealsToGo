@@ -19,11 +19,14 @@ const RestaurantInfo = ({ restaurant = {} }) => {
         isClosedTemporarily = false,
     } = restaurant;
 
-    const ratingArray = Array.from(new Array(rating), (x, i) => i + 1);
+    const ratingArray = Array.from(new Array(Math.floor(rating)), (x, i) => i + 1);
+
+    const tempClosed = 'https://i.hizliresim.com/fnpoepz.png';
     
+    console.log(photos[0]);
     return (
         <RCard elevation={5}>
-            <RCardCover key={name} source={{ uri: 'https://picsum.photos/700' }} />
+            <RCardCover key={name} source={{ uri: photos[0] }} />
             <Info>
                 <Text variant='label'>{name}</Text>
                 <RatingAndOpen>
@@ -35,8 +38,9 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                         }
                     </Rating>
                     <Open>
-                        {(isOpenNow && !isClosedTemporarily) && <SvgXml xml={openSvg} width={20} height={20} />}
-                        {isClosedTemporarily && <Image style={{ width: 60, height: 20 }} source={{ uri: icon }} />}
+                        {(isOpenNow) && <SvgXml xml={openSvg} width={20} height={20} />}
+                        {!isOpenNow && <Image style={{ width: 60, height: 20 }} source={{ uri: tempClosed }} />}
+                        <Image style={{ width: 20, height: 20 }} source={{ uri: icon }} />
                     </Open>
                 </RatingAndOpen>
                 <Address>{address}</Address>

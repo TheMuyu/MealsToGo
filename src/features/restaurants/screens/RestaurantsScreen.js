@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FlatList } from 'react-native'
 import { Searchbar } from 'react-native-paper';
 import RestaurantInfo from '../components/RestaurantInfo';
 import styled from 'styled-components';
 import { Spacer } from './../../../components/spacer/Spacer'
 import { SafeArea } from '../../../components/utility/SafeArea';
-
+import { RestaurantsContext } from "../../../services/restaurants/RestaurantsContext";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 const SearchContainer = styled.View
   `
@@ -18,22 +19,38 @@ const RestaurantList = styled(FlatList).attrs({
   },
 })``;
 
+const Loading = styled(ActivityIndicator)`
+  margin-left: -25px;
+`;
+const LoadingContainer = styled.View`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+`;
 
 const RestaurantsScreen = () => {
+  const { isLoading, error, restaurants } = useContext(RestaurantsContext);
   return (
     <SafeArea>
+      {isLoading && (
+        <LoadingContainer>
+          <Loading size={50} animating={true} color={Colors.blue300} />
+        </LoadingContainer>
+      )} 
       <SearchContainer>
         <Searchbar placeholder='Search...' />
       </SearchContainer>
       <RestaurantList
-        data={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }, { name: 5 }, { name: 6 }, { name: 7 }, { name: 8 }]}
-        renderItem={() => (
-          <Spacer position="bottom" size="large">
-            <RestaurantInfo />
-          </Spacer>
-        )}
+        data={restaurants}
+        renderItem={({ item }) => {
+          //console.log(item);
+          return (
+            <Spacer position="bottom" size="large">
+              <RestaurantInfo restaurant={item} />
+            </Spacer>
+          )
+        }}
         keyExtractor={(item) => item.name}
-        contentContainerStyle={{ padding: 16 }}
       />
 
 

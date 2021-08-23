@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeArea } from './src/components/utility/SafeArea';
 import { Text } from './src/components/typography/Text';
 import { Ionicons } from "@expo/vector-icons";
+import { RestaurantsContextProvider } from "./src/services/restaurants/RestaurantsContext";
 
 import { useFonts as useOswald, Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
@@ -43,7 +44,9 @@ const createScreenOptions = ({ route }) => {
         tabBarIcon: ({ size, color }) => (
             <Ionicons name={iconName} size={size} color={color} />
         ),
-        headerShown: false
+        headerShown: false,
+        tabBarActiveTintColor: "tomato",
+        tabBarInactiveTintColor: "gray",
     };
 };
 
@@ -62,19 +65,15 @@ export default function App() {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <NavigationContainer>
-                    <Tab.Navigator
-                        screenOptions={createScreenOptions}
-                        tabBarOptions={{
-                            activeTintColor: "tomato",
-                            inactiveTintColor: "gray",
-                        }}
-                    >
-                        <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
-                        <Tab.Screen name="Map" component={MapsScreen} />
-                        <Tab.Screen name="Settings" component={SettingsScreen} />
-                    </Tab.Navigator>
-                </NavigationContainer>
+                <RestaurantsContextProvider>
+                    <NavigationContainer>
+                        <Tab.Navigator screenOptions={createScreenOptions} >
+                            <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+                            <Tab.Screen name="Map" component={MapsScreen} />
+                            <Tab.Screen name="Settings" component={SettingsScreen} />
+                        </Tab.Navigator>
+                    </NavigationContainer>
+                </RestaurantsContextProvider>
             </ThemeProvider>
             <ExpoStatusBar style="auto" />
         </>
@@ -82,5 +81,5 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-
+    
 });
