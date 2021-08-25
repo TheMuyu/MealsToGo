@@ -23,7 +23,6 @@ const RestaurantInfo = ({ restaurant = {} }) => {
 
     const tempClosed = 'https://i.hizliresim.com/fnpoepz.png';
     
-    console.log(photos[0]);
     return (
         <RCard elevation={5}>
             <RCardCover key={name} source={{ uri: photos[0] }} />

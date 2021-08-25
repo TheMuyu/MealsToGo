@@ -10,6 +10,7 @@ import { SafeArea } from './src/components/utility/SafeArea';
 import { Text } from './src/components/typography/Text';
 import { Ionicons } from "@expo/vector-icons";
 import { RestaurantsContextProvider } from "./src/services/restaurants/RestaurantsContext";
+import { LocationContextProvider } from "./src/services/location/LocationContext";
 
 import { useFonts as useOswald, Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
@@ -65,6 +66,7 @@ export default function App() {
     return (
         <>
             <ThemeProvider theme={theme}>
+                <LocationContextProvider>
                 <RestaurantsContextProvider>
                     <NavigationContainer>
                         <Tab.Navigator screenOptions={createScreenOptions} >
@@ -74,6 +76,7 @@ export default function App() {
                         </Tab.Navigator>
                     </NavigationContainer>
                 </RestaurantsContextProvider>
+                </LocationContextProvider>
             </ThemeProvider>
             <ExpoStatusBar style="auto" />
         </>
